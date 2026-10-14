@@ -1,0 +1,294 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#081633">
+  <meta name="description"
+        content="SUTO-TETRIS（すとてと）- 遊んで、レベルを上げて、自分好みにカスタマイズできる落ち物パズルゲーム。">
+
+  <title>SUTO-TETRIS | すとてと</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div class="ambient"></div>
+
+  <div id="app">
+
+    <!-- 共通ヘッダー -->
+    <header class="topbar">
+      <button id="homeBtn"
+              class="icon-btn"
+              aria-label="ホームに戻る">
+        ⌂
+      </button>
+
+      <span class="brand">
+        SUTO-<b>TETRIS</b>
+      </span>
+
+      <span id="wallet">💎 0 P</span>
+    </header>
+
+    <main>
+
+      <!-- ホーム画面 -->
+      <section id="home" class="screen active">
+
+        <div class="hero">
+          <div class="hero-orb"></div>
+
+          <p class="eyebrow">ENDLESS BLOCK PUZZLE</p>
+
+          <h1>
+            SUTO-<span>TETRIS</span>
+          </h1>
+
+          <p class="tagline">
+            PLAY · LEVEL UP · CUSTOMIZE
+          </p>
+
+          <p class="game-nickname">すとてと</p>
+        </div>
+
+        <div class="home-actions">
+
+          <button id="playBtn" class="primary">
+            ▶　プレイ
+          </button>
+
+          <div class="two">
+            <button id="shopBtn">
+              🛒　ショップ
+            </button>
+
+            <button id="settingsBtn">
+              ⚙　設定
+            </button>
+          </div>
+
+          <div class="two">
+            <button id="recordsBtn">
+              ♛　記録
+            </button>
+
+            <button id="howBtn">
+              ⓘ　遊び方
+            </button>
+          </div>
+
+        </div>
+
+        <div class="home-best">
+          BEST SCORE
+          <strong id="homeBest">0</strong>
+        </div>
+
+      </section>
+
+      <!-- ゲーム画面 -->
+      <section id="game" class="screen">
+
+        <div class="game-head">
+
+          <div class="stat">
+            SCORE
+            <strong id="score">0</strong>
+          </div>
+
+          <div class="stat">
+            LEVEL
+            <strong id="level">1</strong>
+          </div>
+
+          <div class="stat">
+            LINES
+            <strong id="lines">0</strong>
+          </div>
+
+        </div>
+
+        <div class="game-layout">
+
+          <div class="game-left">
+
+            <div class="mini-stat">
+              HOLD
+              <canvas id="hold"
+                      width="100"
+                      height="100"></canvas>
+            </div>
+
+            <div id="eventLabel"
+                 class="event-label"></div>
+
+          </div>
+
+          <div class="board-wrap">
+            <canvas id="board"
+                    width="240"
+                    height="600"
+                    aria-label="ゲーム盤面"></canvas>
+          </div>
+
+          <div class="game-right">
+
+            <div class="mini-stat">
+              NEXT
+              <canvas id="next"
+                      width="100"
+                      height="255"></canvas>
+            </div>
+
+            <button id="pauseBtn"
+                    class="pause-small"
+                    aria-label="一時停止">
+              Ⅱ
+            </button>
+
+          </div>
+
+        </div>
+
+        <!-- スマホ操作ボタン -->
+        <div class="controls">
+
+          <div class="control-row">
+
+            <button data-control="left"
+                    aria-label="左移動">
+              ❮
+            </button>
+
+            <button data-control="right"
+                    aria-label="右移動">
+              ❯
+            </button>
+
+            <button data-control="ccw"
+                    aria-label="左回転">
+              ↶
+            </button>
+
+            <button data-control="cw"
+                    aria-label="右回転">
+              ↷
+            </button>
+
+          </div>
+
+          <div class="control-row">
+
+            <button data-control="down"
+                    aria-label="ソフトドロップ">
+              ↓
+            </button>
+
+            <button data-control="drop"
+                    aria-label="ハードドロップ">
+              ⤓
+            </button>
+
+            <button data-control="hold"
+                    aria-label="ホールド">
+              H
+            </button>
+
+            <button data-control="pause"
+                    aria-label="一時停止">
+              Ⅱ
+            </button>
+
+          </div>
+
+        </div>
+
+        <div class="keyboard-tip">
+          PC操作：
+          ← → ↓ 移動 /
+          ↑・X 右回転 /
+          Z 左回転 /
+          Space 即落下 /
+          C ホールド /
+          Esc 一時停止
+        </div>
+
+      </section>
+
+      <!-- ショップ画面 -->
+      <section id="shop" class="screen">
+
+        <div class="section-title">
+
+          <h2>🛒 ショップ</h2>
+
+          <span id="shopWallet">
+            💎 0 P
+          </span>
+
+        </div>
+
+        <div class="tabs" id="tabs">
+
+          <button data-category="block"
+                  class="selected">
+            ブロック
+          </button>
+
+          <button data-category="background">
+            背景
+          </button>
+
+          <button data-category="frame">
+            枠
+          </button>
+
+          <button data-category="effect">
+            エフェクト
+          </button>
+
+        </div>
+
+        <div id="items" class="shop-grid"></div>
+
+        <div id="shopDetail" class="shop-detail">
+          商品を選んでください
+        </div>
+
+      </section>
+
+    </main>
+
+    <!-- 共通ポップアップ -->
+    <div id="modal" class="modal-backdrop hidden">
+
+      <div class="modal">
+
+        <h2 id="modalTitle"></h2>
+
+        <div id="modalBody"></div>
+
+        <div id="modalActions"></div>
+
+      </div>
+
+    </div>
+
+    <footer>
+      SUTO-TETRIS · 8 × 20 · ENDLESS MODE
+    </footer>
+
+  </div>
+
+  <!-- JavaScript -->
+  <script src="shop.js"></script>
+  <script src="admin.js"></script>
+  <script src="bgm.js"></script>
+  <script src="script.js"></script>
+
+</body>
+</html>
