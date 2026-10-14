@@ -1,0 +1,987 @@
+
+/* =========================================
+   SUTO-TETRIS（すとてと）
+   STYLE.CSS
+   ========================================= */
+
+/* 基本設定 */
+:root {
+  --bg: #071127;
+  --bg2: #101b3d;
+  --panel: rgba(17, 29, 64, .85);
+  --panel2: rgba(29, 44, 89, .78);
+  --line: rgba(153, 186, 255, .22);
+  --white: #f4f7ff;
+  --muted: #aab9dc;
+  --cyan: #69e4ff;
+  --blue: #638cff;
+  --purple: #b48aff;
+  --gold: #ffdc79;
+  --radius: 18px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100%;
+  background: var(--bg);
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  min-height: 100dvh;
+  color: var(--white);
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Helvetica Neue",
+    "Hiragino Kaku Gothic ProN",
+    "Yu Gothic",
+    sans-serif;
+  overflow-x: hidden;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  border: 0;
+  touch-action: manipulation;
+}
+
+button:disabled {
+  opacity: .45;
+  cursor: not-allowed;
+}
+
+button:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 3px;
+}
+
+canvas {
+  display: block;
+  max-width: 100%;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* =========================================
+   背景
+   ========================================= */
+
+.ambient {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+
+  background:
+    radial-gradient(
+      ellipse at 18% 15%,
+      rgba(35, 100, 230, .25),
+      transparent 48%
+    ),
+    radial-gradient(
+      ellipse at 85% 68%,
+      rgba(125, 54, 220, .24),
+      transparent 50%
+    ),
+    linear-gradient(
+      145deg,
+      #071127,
+      #10183a 55%,
+      #090e25
+    );
+}
+
+.ambient::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: .25;
+
+  background-image:
+    linear-gradient(
+      rgba(130, 170, 255, .08) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(130, 170, 255, .08) 1px,
+      transparent 1px
+    );
+
+  background-size: 45px 45px;
+}
+
+/* =========================================
+   アプリ全体
+   ========================================= */
+
+#app {
+  width: min(100%, 1050px);
+  min-height: 100dvh;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+main {
+  flex: 1;
+  width: 100%;
+}
+
+.screen {
+  display: none;
+  width: 100%;
+  padding: 22px 18px 30px;
+  animation: screenIn .28s ease;
+}
+
+.screen.active {
+  display: block;
+}
+
+@keyframes screenIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =========================================
+   ヘッダー
+   ========================================= */
+
+.topbar {
+  height: 66px;
+  padding: 0 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+
+  background: rgba(8, 17, 42, .78);
+  border-bottom: 1px solid var(--line);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.icon-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  font-size: 27px;
+
+  background: rgba(255, 255, 255, .07);
+  border: 1px solid var(--line);
+}
+
+.brand {
+  font-size: clamp(14px, 3.5vw, 20px);
+  font-weight: 900;
+  letter-spacing: .5px;
+  white-space: nowrap;
+}
+
+.brand b {
+  color: var(--cyan);
+  text-shadow: 0 0 15px rgba(105, 228, 255, .5);
+}
+
+#wallet,
+#shopWallet {
+  color: var(--gold);
+  font-size: 13px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+/* =========================================
+   ホーム画面
+   ========================================= */
+
+#home {
+  max-width: 650px;
+  margin: auto;
+}
+
+.hero {
+  min-height: 280px;
+  position: relative;
+  isolation: isolate;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+  overflow: hidden;
+}
+
+.hero-orb {
+  position: absolute;
+  z-index: -1;
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle at 35% 30%,
+      rgba(126, 237, 255, .45),
+      rgba(82, 96, 255, .25) 38%,
+      rgba(142, 59, 231, .18) 60%,
+      transparent 73%
+    );
+
+  filter: blur(12px);
+  animation: orbFloat 6s ease-in-out infinite;
+}
+
+@keyframes orbFloat {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+
+  50% {
+    transform: translateY(-12px) scale(1.07);
+  }
+}
+
+.eyebrow {
+  color: #a9c9ff;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 4px;
+}
+
+.hero h1 {
+  margin: 10px 0;
+  font-size: clamp(31px, 8vw, 62px);
+  font-weight: 950;
+  letter-spacing: -1.5px;
+  white-space: nowrap;
+
+  text-shadow:
+    0 3px 18px rgba(0, 0, 0, .5),
+    0 0 35px rgba(85, 125, 255, .4);
+}
+
+.hero h1 span {
+  color: var(--cyan);
+  text-shadow:
+    0 0 12px rgba(105, 228, 255, .55),
+    0 0 35px rgba(105, 228, 255, .3);
+}
+
+.tagline {
+  margin: 6px 0;
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--muted);
+}
+
+.game-nickname {
+  margin-top: 15px;
+  font-size: 13px;
+  color: #b7c8ed;
+}
+
+.home-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+
+.home-actions button {
+  min-height: 55px;
+  padding: 13px;
+  border-radius: 15px;
+
+  background: linear-gradient(
+    145deg,
+    rgba(37, 54, 108, .9),
+    rgba(20, 32, 76, .95)
+  );
+
+  border: 1px solid rgba(147, 176, 255, .3);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, .2);
+
+  font-weight: 800;
+  transition:
+    transform .15s,
+    filter .15s,
+    border-color .15s;
+}
+
+.home-actions button:active {
+  transform: scale(.96);
+}
+
+.home-actions button:hover {
+  border-color: var(--cyan);
+  filter: brightness(1.12);
+}
+
+.home-actions .primary {
+  min-height: 65px;
+  font-size: 19px;
+
+  background: linear-gradient(
+    110deg,
+    #2364f5,
+    #6477f5 55%,
+    #8657e9
+  );
+
+  border-color: #91b7ff;
+
+  box-shadow:
+    0 7px 28px rgba(50, 105, 255, .35),
+    inset 0 1px rgba(255, 255, 255, .25);
+}
+
+.two {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 13px;
+}
+
+.home-best {
+  margin-top: 28px;
+  padding: 22px;
+  text-align: center;
+
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background: var(--panel);
+
+  font-size: 12px;
+  letter-spacing: 2px;
+  color: var(--muted);
+}
+
+.home-best strong {
+  display: block;
+  margin-top: 8px;
+  color: var(--gold);
+  font-size: clamp(25px, 7vw, 37px);
+  letter-spacing: 1px;
+}
+
+/* =========================================
+   ゲーム画面
+   ========================================= */
+
+#game {
+  max-width: 900px;
+  margin: auto;
+}
+
+.game-head {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.stat {
+  padding: 11px 6px;
+  text-align: center;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  color: var(--muted);
+
+  border-radius: 12px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+}
+
+.stat strong {
+  display: block;
+  margin-top: 5px;
+  font-size: clamp(16px, 4vw, 25px);
+  letter-spacing: 0;
+  color: var(--white);
+  overflow-wrap: anywhere;
+}
+
+.game-layout {
+  display: grid;
+  grid-template-columns:
+    minmax(55px, 1fr)
+    minmax(0, 320px)
+    minmax(55px, 1fr);
+
+  gap: 10px;
+  align-items: start;
+  justify-content: center;
+}
+
+.game-left,
+.game-right {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.mini-stat {
+  padding: 10px 5px;
+  border-radius: 12px;
+  text-align: center;
+
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: var(--muted);
+
+  background: var(--panel);
+  border: 1px solid var(--line);
+}
+
+.mini-stat canvas {
+  margin: 8px auto 0;
+  width: 100%;
+  height: auto;
+}
+
+.board-wrap {
+  width: 100%;
+  padding: 5px;
+  border-radius: 10px;
+  overflow: hidden;
+
+  background: linear-gradient(
+    135deg,
+    #4f8dff,
+    #8a5bff,
+    #57dfff
+  );
+
+  box-shadow:
+    0 0 15px rgba(90, 125, 255, .35),
+    0 0 35px rgba(85, 70, 230, .18);
+}
+
+#board {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 8 / 20;
+
+  background: rgba(5, 12, 33, .93);
+  border-radius: 4px;
+}
+
+.event-label {
+  color: var(--gold);
+  font-size: 12px;
+  font-weight: 900;
+  text-align: center;
+  overflow-wrap: anywhere;
+  text-shadow: 0 0 12px rgba(255, 215, 100, .5);
+}
+
+.pause-small {
+  padding: 10px;
+  border-radius: 10px;
+  background: var(--panel2);
+  border: 1px solid var(--line);
+}
+
+.controls {
+  max-width: 550px;
+  margin: 18px auto 0;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.control-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 9px;
+}
+
+.control-row button {
+  min-height: 56px;
+  border-radius: 13px;
+  font-size: 23px;
+  font-weight: 900;
+
+  background: linear-gradient(
+    160deg,
+    #263f87,
+    #172a62
+  );
+
+  border: 1px solid rgba(147, 187, 255, .35);
+
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, .25),
+    inset 0 1px rgba(255, 255, 255, .12);
+
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;
+}
+
+.control-row button:active,
+.control-row button.pressed {
+  transform: scale(.94);
+  background: #426be0;
+  box-shadow: 0 0 18px rgba(90, 155, 255, .5);
+}
+
+.keyboard-tip {
+  margin-top: 17px;
+  text-align: center;
+  font-size: 11px;
+  line-height: 1.8;
+  color: var(--muted);
+}
+
+/* =========================================
+   ショップ
+   ========================================= */
+
+#shop {
+  max-width: 850px;
+  margin: auto;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.section-title h2 {
+  margin: 0;
+  font-size: 25px;
+}
+
+.tabs {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 7px;
+  margin-bottom: 20px;
+}
+
+.tabs button {
+  min-height: 43px;
+  padding: 8px 2px;
+  border-radius: 10px;
+
+  font-size: 12px;
+  font-weight: 800;
+
+  background: var(--panel);
+  border: 1px solid var(--line);
+}
+
+.tabs button.selected {
+  color: white;
+  background: linear-gradient(
+    120deg,
+    #2c6cf0,
+    #7757e6
+  );
+  border-color: #91b7ff;
+  box-shadow: 0 0 16px rgba(75, 115, 255, .25);
+}
+
+.shop-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.shop-item {
+  min-width: 0;
+  padding: 10px;
+  border-radius: 14px;
+  text-align: center;
+
+  background: var(--panel);
+  border: 1px solid var(--line);
+
+  transition:
+    transform .15s,
+    border-color .15s;
+}
+
+.shop-item:hover {
+  transform: translateY(-2px);
+  border-color: var(--cyan);
+}
+
+.shop-item.selected {
+  border-color: var(--gold);
+  box-shadow: 0 0 15px rgba(255, 215, 100, .18);
+}
+
+.shop-preview {
+  width: 100%;
+  aspect-ratio: 1;
+  margin-bottom: 9px;
+  border-radius: 10px;
+  overflow: hidden;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #101a38;
+}
+
+.shop-item strong {
+  display: block;
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+
+.shop-price {
+  display: block;
+  margin-top: 5px;
+  color: var(--gold);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.shop-detail {
+  margin-top: 20px;
+  padding: 18px;
+  border-radius: 15px;
+
+  background: var(--panel);
+  border: 1px solid var(--line);
+
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.shop-detail button {
+  margin-top: 12px;
+  padding: 12px 20px;
+  border-radius: 10px;
+
+  font-weight: 800;
+  background: linear-gradient(120deg, #286af3, #8157e9);
+}
+
+/* =========================================
+   着せ替えデザイン用
+   ========================================= */
+
+.skin-preview {
+  width: 75%;
+  height: 75%;
+  border-radius: 8px;
+  position: relative;
+  overflow: hidden;
+}
+
+.skin-preview::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, .45),
+    transparent 42%,
+    rgba(0, 0, 0, .25)
+  );
+}
+
+/* オーロラ */
+.skin-aurora {
+  background: linear-gradient(
+    125deg,
+    #45d9ff,
+    #a17bff,
+    #ff80c8,
+    #60f5c9,
+    #45d9ff
+  );
+  background-size: 300% 300%;
+  animation: auroraMove 5s ease infinite;
+}
+
+@keyframes auroraMove {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* ゴールド */
+.skin-gold {
+  background: linear-gradient(
+    135deg,
+    #6f4700,
+    #e5ad2e,
+    #fff1a1,
+    #d28b0d,
+    #714700
+  );
+}
+
+/* シルバー */
+.skin-silver {
+  background: linear-gradient(
+    135deg,
+    #515b70,
+    #b9c5d6,
+    #ffffff,
+    #8794aa,
+    #495367
+  );
+}
+
+/* ブロンズ */
+.skin-bronze {
+  background: linear-gradient(
+    135deg,
+    #653a20,
+    #c47a41,
+    #e6b07b,
+    #92512a,
+    #4b2b1c
+  );
+}
+
+/* =========================================
+   ポップアップ
+   ========================================= */
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(2, 7, 22, .8);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.modal {
+  width: min(100%, 430px);
+  max-height: 85dvh;
+  overflow-y: auto;
+
+  padding: 24px;
+  border-radius: 20px;
+
+  background: linear-gradient(
+    145deg,
+    #1a2a57,
+    #101a3b
+  );
+
+  border: 1px solid rgba(156, 188, 255, .35);
+
+  box-shadow:
+    0 20px 70px rgba(0, 0, 0, .55),
+    0 0 30px rgba(80, 110, 255, .15);
+}
+
+.modal h2 {
+  margin: 0 0 17px;
+  font-size: 22px;
+}
+
+#modalBody {
+  line-height: 1.8;
+  color: #d1dcf7;
+}
+
+#modalBody input {
+  width: 100%;
+  margin: 8px 0;
+  padding: 13px;
+
+  color: white;
+  font-size: 16px;
+
+  background: #0c1736;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+
+#modalActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+#modalActions button,
+.modal button {
+  padding: 11px 16px;
+  border-radius: 10px;
+  font-weight: 800;
+
+  background: linear-gradient(
+    120deg,
+    #2d68e9,
+    #7655d9
+  );
+}
+
+#modalActions button.secondary {
+  background: #33436a;
+}
+
+/* =========================================
+   フッター
+   ========================================= */
+
+footer {
+  padding: 18px 12px;
+  text-align: center;
+
+  color: #7f91bc;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+
+  border-top: 1px solid rgba(153, 186, 255, .1);
+}
+
+/* =========================================
+   スマホ対応
+   ========================================= */
+
+@media (max-width: 600px) {
+  .topbar {
+    height: 58px;
+    padding: 0 12px;
+  }
+
+  .screen {
+    padding: 16px 10px 24px;
+  }
+
+  .hero {
+    min-height: 250px;
+  }
+
+  .game-layout {
+    grid-template-columns:
+      minmax(48px, 1fr)
+      minmax(0, 58vw)
+      minmax(48px, 1fr);
+
+    gap: 5px;
+  }
+
+  .mini-stat {
+    padding: 7px 2px;
+    font-size: 10px;
+  }
+
+  .board-wrap {
+    padding: 3px;
+  }
+
+  .control-row {
+    gap: 6px;
+  }
+
+  .control-row button {
+    min-height: 53px;
+    font-size: 21px;
+  }
+
+  .shop-grid {
+    gap: 8px;
+  }
+
+  .shop-item {
+    padding: 7px;
+  }
+
+  .shop-item strong {
+    font-size: 11px;
+  }
+
+  .shop-price {
+    font-size: 10px;
+  }
+
+  .keyboard-tip {
+    display: none;
+  }
+}
+
+/* =========================================
+   横画面スマホ対応
+   ========================================= */
+
+@media (orientation: landscape) and (max-height: 550px) {
+  .topbar {
+    height: 44px;
+  }
+
+  #game {
+    max-width: 850px;
+  }
+
+  .game-head {
+    margin-bottom: 8px;
+  }
+
+  .game-layout {
+    grid-template-columns:
+      minmax(70px, 1fr)
+      minmax(0, 190px)
+      minmax(70px, 1fr);
+  }
+
+  .controls {
+    margin-top: 10px;
+  }
+
+  .control-row button {
+    min-height: 42px;
+  }
+}
+
+/* =========================================
+   アニメーション軽減設定
+   ========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: .01ms !important;
+    transition-duration: .01ms !important;
+  }
+}
